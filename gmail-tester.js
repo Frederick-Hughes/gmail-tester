@@ -99,9 +99,6 @@ async function _get_recent_email(credentials, token, options = {}) {
 async function __check_inbox(credentials, token, options = {}) {
   const { subject, from, to, wait_time_sec, max_wait_time_sec } = options;
   try {
-    console.log(
-      `[gmail] Checking for message from '${from}', to: ${to}, contains '${subject}' in subject...`
-    );
     let found_emails = null;
     let done_waiting_time = 0;
     do {
@@ -111,16 +108,11 @@ async function __check_inbox(credentials, token, options = {}) {
         options
       );
       if (emails.length > 0) {
-        console.log(`[gmail] Found!`);
         found_emails = emails;
         break;
       }
-      console.log(
-        `[gmail] Message not found. Waiting ${wait_time_sec} seconds...`
-      );
       done_waiting_time += wait_time_sec;
       if (done_waiting_time >= max_wait_time_sec) {
-        console.log("[gmail] Maximum waiting time exceeded!");
         break;
       }
       await new Promise(resolve => setTimeout(resolve, wait_time_sec * 1000));
